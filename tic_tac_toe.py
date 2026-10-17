@@ -47,3 +47,38 @@ label = tk.Label(root, text = f"player {current_player}'s turn", font =("normal"
 label.grid(row=3, column = 0, columnspan = 3)
 
 root.mainloop()
+def ai():
+    # 1. Check combos to block player X (Added check to ensure target tile is empty "")
+    for combo in [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]:
+        if button[combo[0]]["text"] == "X" and button[combo[1]]["text"] == "X" and button[combo[2]]["text"] == "":
+            button[combo[2]]["text"] = "O"
+            check_winner()
+            return
+
+        elif button[combo[1]]["text"] == "X" and button[combo[2]]["text"] == "X" and button[combo[0]]["text"] == "":
+            button[combo[0]]["text"] = "O"
+            check_winner()
+            return
+
+        elif button[combo[2]]["text"] == "X" and button[combo[0]]["text"] == "X" and button[combo[1]]["text"] == "":
+            button[combo[1]]["text"] = "O"
+            check_winner()
+            return
+
+    # 2. Fallback choices (Moved OUTSIDE the for loop so they don't run repeatedly)
+    if button[4]["text"] == "":
+        button[4]["text"] = "O"
+
+    elif button[2]["text"] == "X" and button[4]["text"] == "O" and button[6]["text"] == "X":
+        button[8]["text"] == "O"
+        
+    elif button[4]["text"] == "X" and button[0]["text"] == "":
+        button[0]["text"] = "O"
+    
+    else:
+        for i in range(9):
+            if button[i]["text"] == "":
+                button[i]["text"] = "O"
+                break
+
+    check_winner()
